@@ -29,7 +29,7 @@
 		"bit3/php-coding-standard":"@dev"
 	},
 	"autoload":{
-		"classmap": ["src/"]
+		"psr-0": { "Compat": "src/" }
 	},
 	"extra":{
 		"contao": {
