@@ -12,4 +12,9 @@ class Compat implements \Compat\Compat
 
 		return $file;
 	}
+
+	static public function syncFile($file)
+	{
+		return $file;
+	}
 }

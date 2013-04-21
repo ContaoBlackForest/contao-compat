@@ -17,4 +17,14 @@ interface Compat
 	 * @return string|null The pathname to the file or $fallback if file not found.
 	 */
 	static public function resolveFile($file, $fallback = null);
+
+	/**
+	 * Store a file pathname in tl_files and return the file ID.
+	 *
+	 * @param string $file
+	 *     The file pathname.
+	 *
+	 * @return string|int The pathname if dbafs is not supported or disabled or the tl_files record ID.
+	 */
+	static public function syncFile($file);
 }
