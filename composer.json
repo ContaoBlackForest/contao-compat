@@ -30,12 +30,5 @@
 	},
 	"autoload":{
 		"psr-0": { "Compat": "src/" }
-	},
-	"extra":{
-		"contao": {
-			"symlinks":{
-				"contao":"system/modules/compat"
-			}
-		}
 	}
 }

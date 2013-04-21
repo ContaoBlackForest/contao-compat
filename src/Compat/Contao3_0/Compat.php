@@ -1,6 +1,6 @@
 <?php
 
-namespace Compat\Contao2_11;
+namespace Compat\Contao3_0;
 
 use Controller;
 use Database;
