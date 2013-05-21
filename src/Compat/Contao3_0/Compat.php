@@ -104,7 +104,7 @@ class Compat extends Controller implements \Compat\Compat
 		}
 
 		/** @var FilesModel $fileModel */
-		$fileModel = FilesModel::findByPath($file);
+		$fileModel = FilesModel::findByPath($file, array('uncached' => true));
 
 		if ($fileModel) {
 			$fileModel->pid = $pid;
