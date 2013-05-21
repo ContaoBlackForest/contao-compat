@@ -92,6 +92,7 @@ class Compat extends Controller implements \Compat\Compat
 
 		if (is_dir(TL_ROOT . '/' . $file)) {
 			$type = 'folder';
+			$hash = '';
 		}
 		else {
 			$type = 'file';
