@@ -17,4 +17,13 @@ class Compat implements \Compat\Compat
 	{
 		return $file;
 	}
+
+	static public function deleteFile($file)
+	{
+		if (file_exists(TL_ROOT . '/' . $file)) {
+			return \Files::getInstance()->delete($file);
+		}
+
+		return false;
+	}
 }

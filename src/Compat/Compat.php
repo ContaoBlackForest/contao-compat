@@ -27,4 +27,14 @@ interface Compat
 	 * @return string|int The pathname if dbafs is not supported or disabled or the tl_files record ID.
 	 */
 	static public function syncFile($file);
+
+	/**
+	 * Delete a file source.
+	 *
+	 * @param string|int|FilesModel $file
+	 *     The file source.
+	 *
+	 * @return bool Return <em>true</em> if the file was deleted.
+	 */
+	static public function deleteFile($file);
 }

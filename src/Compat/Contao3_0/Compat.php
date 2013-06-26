@@ -25,7 +25,13 @@ class Compat extends Controller implements \Compat\Compat
 		return static::$instance;
 	}
 
-	static public function resolveFile($file, $fallback = null)
+	/**
+	 * @param $file
+	 *
+	 * @return bool|FilesModel
+	 * @throws \RuntimeException
+	 */
+	static public function getFileModel($file)
 	{
 		/**
 		 * Get file from a collection
@@ -39,30 +45,38 @@ class Compat extends Controller implements \Compat\Compat
 		 */
 		else if (is_numeric($file)) {
 			$file = FilesModel::findByPk($file);
+		}
 
-			/**
-			 * File not found -> return $fallback
-			 */
-			if (!$file) {
-				return $fallback;
-			}
+		/**
+		 * Get file by pathname
+		 */
+		else if (is_string($file)) {
+			$file = FilesModel::findByPath($file);
+		}
+
+		else {
+			throw new \RuntimeException('Illegal argument of type ' . gettype($file) . ' given to Compat::resolveFile()');
 		}
 
 		/**
 		 * Get path from model
 		 */
 		if ($file instanceof FilesModel) {
-			$file = $file->path;
-		}
-		else if (!is_string($file)) {
-			throw new \RuntimeException('Illegal argument of type ' . gettype($file) . ' given to Compat::resolveFile()');
+			return $file;
 		}
 
-		if ($fallback !== null && !file_exists(TL_ROOT . '/' . $file)) {
+		return false;
+	}
+
+	static public function resolveFile($file, $fallback = null)
+	{
+		$file = static::getFileModel($file);
+
+		if (!$file || $fallback !== null && !file_exists(TL_ROOT . '/' . $file->path)) {
 			return $fallback;
 		}
 
-		return $file;
+		return $file->path;
 	}
 
 	static public function syncFile($file)
@@ -126,5 +140,21 @@ class Compat extends Controller implements \Compat\Compat
 		}
 
 		return $fileModel->id;
+	}
+
+	static public function deleteFile($file)
+	{
+		$file = static::getFileModel($file);
+
+		if ($file) {
+			$result = true;
+			if (file_exists(TL_ROOT . '/' . $file->path)) {
+				$result = \Files::getInstance()->delete($file->path);
+			}
+			$file->delete();
+			return $result;
+		}
+
+		return false;
 	}
 }
