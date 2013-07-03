@@ -51,7 +51,23 @@ class Compat extends Controller implements \Compat\Compat
 		 * Get file by pathname
 		 */
 		else if (is_string($file)) {
-			$file = FilesModel::findByPath($file);
+			// normalize path
+			$file = preg_replace('~//+~', '/', $file);
+			
+			// fallback to virtual files model if
+			// ... file not in upload path
+			// ... dbafs is disabled
+			// ... file does not exists
+			if (!preg_match('#^' . preg_quote($GLOBALS['TL_CONFIG']['uploadPath']) . '/#', $file) ||
+				!$GLOBALS['TL_DCA']['tl_files']['config']['databaseAssisted']
+			) {
+				$model = new FilesModel();
+				$model->path = $file;
+				$file = $model;
+			}
+			else {
+				$file = FilesModel::findByPath($file);
+			}
 		}
 
 		else {
