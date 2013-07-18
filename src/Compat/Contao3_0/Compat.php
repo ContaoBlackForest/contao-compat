@@ -44,7 +44,7 @@ class Compat extends Controller implements \Compat\Compat
 		 * Get file by DBAFS ID
 		 */
 		else if (is_numeric($file)) {
-			$file = FilesModel::findByPk($file);
+			$file = FilesModel::findByPk($file, array('uncached' => true));
 		}
 
 		/**
@@ -66,7 +66,7 @@ class Compat extends Controller implements \Compat\Compat
 				$file = $model;
 			}
 			else {
-				$file = FilesModel::findByPath($file);
+				$file = FilesModel::findByPath($file, array('uncached' => true));
 			}
 		}
 
