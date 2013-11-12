@@ -30,7 +30,7 @@
 		"bit3/php-coding-standard":"@dev"
 	},
 	"replace":{
-		"contao-legacy/compat":"*"
+		"contao-legacy/compat":"self.version"
 	},
 	"autoload":{
 		"psr-0": { "Compat": "src/" }
