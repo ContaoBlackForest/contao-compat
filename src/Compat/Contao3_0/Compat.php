@@ -97,6 +97,9 @@ class Compat extends Controller implements \Compat\Compat
 
 	static public function syncFile($file)
 	{
+		// normalize path
+		$file = preg_replace('~//+~', '/', $file);
+
 		static::getInstance()->loadDataContainer('tl_files');
 
 		// break if
