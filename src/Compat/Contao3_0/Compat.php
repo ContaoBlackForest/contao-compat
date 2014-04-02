@@ -95,6 +95,10 @@ class Compat extends Controller implements \Compat\Compat
 
 	static public function resolveFile($file, $fallback = null)
 	{
+		if (empty($file)) {
+			return $fallback;
+		}
+
 		$file = static::getFileModel($file);
 
 		if (!$file || $fallback !== null && !file_exists(TL_ROOT . '/' . $file->path)) {
