@@ -97,7 +97,7 @@ class Compat extends Controller implements \Compat\Compat
 		return $file->path;
 	}
 
-	static public function syncFile($file)
+	static public function syncFileModel($file)
 	{
 		// normalize path
 		$file = preg_replace('~//+~', '/', $file);
@@ -159,6 +159,13 @@ class Compat extends Controller implements \Compat\Compat
 			$fileModel->name = $name;
 			$fileModel->save();
 		}
+
+		return $fileModel;
+	}
+
+	static public function syncFile($file)
+	{
+		$fileModel = static::syncFileModel($file);
 
 		return $fileModel->id;
 	}

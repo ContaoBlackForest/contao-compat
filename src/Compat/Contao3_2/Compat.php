@@ -57,4 +57,16 @@ class Compat extends Compat3_0
 
 		return false;
 	}
+
+	static public function syncFile($file)
+	{
+		$fileModel = static::syncFileModel($file);
+
+		if (empty($fileModel->uuid)) {
+			$fileModel->uuid = \Database::getInstance()->getUuid();
+			$fileModel->save();
+		}
+
+		return $fileModel->uuid;
+	}
 }
