@@ -99,6 +99,10 @@ class Compat extends Controller implements \Compat\Compat
 			return $fallback;
 		}
 
+		if (file_exists(TL_ROOT . '/' . $file)) {
+			return $file;
+		}
+
 		$file = static::getFileModel($file);
 
 		if (!$file || $fallback !== null && !file_exists(TL_ROOT . '/' . $file->path)) {
