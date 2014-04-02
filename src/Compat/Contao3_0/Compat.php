@@ -182,7 +182,11 @@ class Compat extends Controller implements \Compat\Compat
 	{
 		$fileModel = static::syncFileModel($file);
 
-		return $fileModel->id;
+		if ($fileModel instanceof \FilesModel) {
+			return $fileModel->id;
+		}
+
+		return $fileModel;
 	}
 
 	static public function deleteFile($file)

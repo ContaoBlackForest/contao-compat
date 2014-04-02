@@ -69,7 +69,7 @@ class Compat extends Compat3_0
 	{
 		$fileModel = static::syncFileModel($file);
 
-		if (empty($fileModel->uuid)) {
+		if ($fileModel instanceof \FilesModel && empty($fileModel->uuid)) {
 			$fileModel->uuid = \Database::getInstance()->getUuid();
 			$fileModel->save();
 		}
