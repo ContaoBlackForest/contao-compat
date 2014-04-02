@@ -79,6 +79,8 @@ class Compat extends Controller implements \Compat\Compat
 		 */
 		if ($file instanceof FilesModel) {
 			return $file;
+		} else if ($file instanceof Collection && $file->current() !== null) {
+			return $file->current();
 		}
 
 		return false;
