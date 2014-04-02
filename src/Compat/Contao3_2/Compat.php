@@ -35,9 +35,16 @@ class Compat extends Compat3_0
 	static public function getFileModel($file)
 	{
 		/**
+		 * No file model source given
+		 */
+		if (empty($file)) {
+			return false;
+		}
+
+		/**
 		 * Get file by DBAFS UUID
 		 */
-		if (\Validator::isUuid($file)) {
+		else if (\Validator::isUuid($file)) {
 			$file = FilesModel::findByUuid($file, array('uncached' => true));
 		}
 

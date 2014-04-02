@@ -34,9 +34,16 @@ class Compat extends Controller implements \Compat\Compat
 	static public function getFileModel($file)
 	{
 		/**
+		 * No file model source given
+		 */
+		if (empty($file)) {
+			return false;
+		}
+
+		/**
 		 * Get file from a collection
 		 */
-		if ($file instanceof Collection) {
+		else if ($file instanceof Collection) {
 			$file = $file->current();
 		}
 
