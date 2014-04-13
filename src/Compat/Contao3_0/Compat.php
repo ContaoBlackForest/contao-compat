@@ -99,7 +99,8 @@ class Compat extends Controller implements \Compat\Compat
 			return $fallback;
 		}
 
-		if (file_exists(TL_ROOT . '/' . $file)) {
+		// the ctype_print check is for forward compatibility with binary UUIDs
+		if (ctype_print($file) && file_exists(TL_ROOT . '/' . $file)) {
 			return $file;
 		}
 
