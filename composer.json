@@ -3,7 +3,6 @@
 	"description":"Compat layer to work around differences in the Contao 2 and Contao 3 API.",
 	"keywords":["contao", "compat"],
 	"type":"contao-module",
-	"homepage":"http://bit3.de",
 	"license":"LGPL-3.0+",
 	"authors":[
         {
