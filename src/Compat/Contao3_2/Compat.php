@@ -1,79 +1,104 @@
 <?php
 
+/**
+ * Compatibility layer to the Contao API
+ * Copyright (C) 2015 ContaoBlackForest
+ *
+ * PHP version 5
+ *
+ * @copyright   bit3 UG 2013
+ * @author      Tristan Lins <tristan.lins@bit3.de>
+ * @author      Dominik Tomasi <dominik.tomasi@gmail.com>
+ * @author      Sven Baumann <baumannsv@gmail.com>
+ * @package     doctrine-orm
+ * @license     LGPL
+ * @filesource
+ */
+
 namespace Compat\Contao3_2;
 
-use Controller;
+use Compat\Contao3_0\Compat as Compat3_0;
 use Database;
 use FilesModel;
-use Model\Collection;
-use Compat\Contao3_0\Compat as Compat3_0;
 
+/**
+ * Class Compat
+ *
+ * @package Compat\Contao3_2
+ */
 class Compat extends Compat3_0
 {
-	/**
-	 * @var Compat
-	 */
-	static protected $instance = null;
+    /**
+     * @var Compat
+     */
+    static protected $instance = null;
 
-	/**
-	 * @return Compat
-	 */
-	static protected function getInstance()
-	{
-		if (static::$instance === null) {
-			static::$instance = new Compat();
-		}
-		return static::$instance;
-	}
+    /**
+     * @return Compat
+     */
+    protected static function getInstance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new Compat();
+        }
 
-	/**
-	 * @param $file
-	 *
-	 * @return bool|FilesModel
-	 * @throws \RuntimeException
-	 */
-	static public function getFileModel($file)
-	{
-		/**
-		 * No file model source given
-		 */
-		if (empty($file)) {
-			return false;
-		}
+        return static::$instance;
+    }
 
-		/**
-		 * Get file by DBAFS UUID
-		 */
-		else if (\Validator::isUuid($file)) {
-			$file = FilesModel::findByUuid($file, array('uncached' => true));
-		}
+    /**
+     * @param $file
+     *
+     * @return bool|FilesModel
+     * @throws \RuntimeException
+     */
+    public static function getFileModel($file)
+    {
 
-		/**
-		 * Search the old way
-		 */
-		else {
-			return parent::getFileModel($file);
-		}
+        if (empty($file)) {
 
-		/**
-		 * Get path from model
-		 */
-		if ($file instanceof FilesModel) {
-			return $file;
-		}
+            /**
+             * No file model source given
+             */
+            return false;
 
-		return false;
-	}
+        } elseif (\Validator::isUuid($file)) {
 
-	static public function syncFile($file)
-	{
-		$fileModel = static::syncFileModel($file);
+            /**
+             * Get file by DBAFS UUID
+             */
+            $file = FilesModel::findByUuid($file, array('uncached' => true));
 
-		if ($fileModel instanceof \FilesModel && empty($fileModel->uuid)) {
-			$fileModel->uuid = \Database::getInstance()->getUuid();
-			$fileModel->save();
-		}
+        } else {
 
-		return $fileModel->uuid;
-	}
+            /**
+             * Search the old way
+             */
+            return parent::getFileModel($file);
+        }
+
+        /**
+         * Get path from model
+         */
+        if ($file instanceof FilesModel) {
+            return $file;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $file
+     * @return mixed|null|string
+     */
+    public static function syncFile($file)
+    {
+        $fileModel = static::syncFileModel($file);
+
+        if ($fileModel instanceof \FilesModel && empty($fileModel->uuid)) {
+            $fileModel->uuid = \Database::getInstance()->getUuid();
+            $fileModel->save();
+        }
+
+        return $fileModel->uuid;
+    }
 }
